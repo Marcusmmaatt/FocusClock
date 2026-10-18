@@ -6,7 +6,28 @@ reminds you — or blocks you — the moment you go over it. No account, no clou
 **一款完全离线的 Android 专注力守门员。** 选定一个应用、设定单次使用上限，到点提醒或强制退出。
 不联网、不登录、不上传任何数据。
 
-[English](#english) · [中文说明](#中文说明) · [Build](#build-from-source) · [Privacy](#privacy-and-permissions) · [License](#license)
+[English](#english) · [中文说明](#中文说明) · [Screenshots](#screenshots) · [Build](#build-from-source) · [Privacy](#privacy-and-permissions) · [License](#license)
+
+---
+
+## Screenshots
+
+> The app UI is currently **Chinese only** — English localization is on the roadmap.
+> 界面目前仅中文（英文版在计划中）。
+
+| Dashboard | First run | Hard block |
+|:--:|:--:|:--:|
+| <img src="docs/screenshots/dashboard.jpg" width="230"> | <img src="docs/screenshots/permissions.jpg" width="230"> | <img src="docs/screenshots/hard-block.jpg" width="230"> |
+| One app, two limits | Banner when core permissions are missing | Full-screen block, then a 5-minute cooldown |
+
+| Soft reminder | Settings | Keep-alive guide |
+|:--:|:--:|:--:|
+| <img src="docs/screenshots/soft-reminder.jpg" width="230"> | <img src="docs/screenshots/settings.jpg" width="230"> | <img src="docs/screenshots/keepalive.jpg" width="230"> |
+| Deliberately playful copy | Interrupt mode + keep-alive entry | Per-OEM steps, device auto-detected |
+
+<img src="docs/screenshots/notification.jpg" width="720">
+
+*The foreground-service notification keeps the elapsed/cooldown time visible at a glance.*
 
 ---
 
@@ -36,6 +57,8 @@ It runs entirely on your phone: the app declares **no `INTERNET` permission** an
 - **Keep-alive guide** — step-by-step help for auto-start, battery whitelist and recent-task locking
   on aggressive Chinese ROMs.
 - **No ads, no analytics, no network code.** Zero dependencies on HTTP clients.
+- **Chinese UI for now** — labels, guidance and reminder copy are Chinese; an English localization
+  is planned. The playful reminder wording (「休息一下好不好」/「拜托你很弱哎」) is intentional, not a bug.
 
 ### How the rules work
 
@@ -150,6 +173,7 @@ By contributing you agree that your work is licensed under the MIT License.
 - **重启不丢冷静期**：冷静期截止时间写入本地文件，开机后自动恢复拦截。
 - **保活指引**：自启动、电池白名单、最近任务加锁，一步一步教你在国产 ROM 上活下来。
 - **无广告、无统计、无网络代码。**
+- **目前界面为纯中文**，英文版在计划中；提醒卡片的语气是刻意轻松的（「休息一下好不好」「拜托你很弱哎」），不是文案错误。
 
 ### 规则一览
 
