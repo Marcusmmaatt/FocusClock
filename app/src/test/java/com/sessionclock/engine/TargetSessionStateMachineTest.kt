@@ -102,6 +102,10 @@ class TargetSessionStateMachineTest {
         assertTrue(duringSnooze.snoozeRemainingMs in 59_000L..61_000L)
         assertEquals(1, effects.count { it is TargetEffect.EmitSoftReminder })
 
+        // 走完顺延剩下的 1 分钟：刚好到顺延截止，仍然不触发
+        sm.advance(clock, 60_000L, limit60s, InterruptMode.SOFT_REMINDER)
+        assertEquals(1, effects.count { it is TargetEffect.EmitSoftReminder })
+
         // 顺延结束后重新计满 1 分钟，才第二次提醒
         sm.advance(clock, 60_000L, limit60s, InterruptMode.SOFT_REMINDER)
         assertEquals(2, effects.count { it is TargetEffect.EmitSoftReminder })
