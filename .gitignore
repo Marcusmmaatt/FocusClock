@@ -1,0 +1,32 @@
+# ============================================================
+# Android / Gradle
+# ============================================================
+*.iml
+.gradle/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+local.properties
+
+# Signed APKs / bundles: never commit your keystore or release outputs
+*.jks
+*.keystore
+*.apk
+*.aab
+*.ap_
+release/
+
+# ============================================================
+# IDE
+# ============================================================
+.idea/
+*.hprof
+.DS_Store
+Thumbs.db
+
+# ============================================================
+# Environment / secrets
+# ============================================================
+.env
+*.local

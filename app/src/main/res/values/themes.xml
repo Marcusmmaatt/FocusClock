@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Compose 接管前的窗口主题：无 ActionBar，亮色窗口背景避免启动白屏闪烁 -->
+    <style name="Theme.SessionClock" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/window_background</item>
+    </style>
+</resources>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  =================================================================================
+  SessionClock AndroidManifest.xml（Sprint 1 基线）
+  =================================================================================
+  权限设计对照 PRD 4.1 / 4.2 节与 F-01、F-02、F-11 验收项：
+
+  【两项核心权限（Special App Access，无法运行时弹窗，只能引导用户去设置页开启）】
+    1. PACKAGE_USAGE_STATS —— 使用情况访问权限（appop 级），用于 UsageStatsManager
+       识别顶层前台包名；
+    2. SYSTEM_ALERT_WINDOW  —— 悬浮窗权限，用于挂载软提醒卡片与全屏强拦截遮罩。
+
+  【保活 / 拦截配套权限】
+    3. FOREGROUND_SERVICE（API 28+）与 FOREGROUND_SERVICE_SPECIAL_USE（API 34+）：
+       Android 14 起前台服务必须声明具体类型，本产品无对应标准类型，
+       申报 specialUse 并在 <service> 内以 <property> 说明用途；
+    4. POST_NOTIFICATIONS（API 33+）：常驻通知运行时权限，缺失不影响 FGS 存活，
+       但用户看不到常驻卡片（F-02 体验受损），故一并引导；
+    5. RECEIVE_BOOT_COMPLETED：冷静期跨重启防御（EC-03 / F-11）；
+    6. VIBRATE：软提醒短震 1 次、强拦截 300ms 震动；
+    7. REQUEST_IGNORE_BATTERY_OPTIMIZATIONS：引导加入电池优化白名单（保活基线）。
+
+  【明确禁止】
+    × 严禁声明 android.permission.INTERNET（NFR 隐私红线，验收需反查本文件）。
+
+  注：本清单引用的 .MainActivity / .service.MonitorService /
+      .receiver.BootCompletedReceiver 为 Sprint 1 后续步骤交付的类，
+      在它们创建前模块不可单独编译，属正常的分步骤交付顺序。
+  =================================================================================
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ============================ 1. 普通/签名级权限 ============================ -->
+
+    <!-- 在其他应用上层显示悬浮窗（软提醒 C01 / 强拦截遮罩 C02） -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!--
+      使用情况访问权限：属于 signature|appop|development 保护级别，
+      普通应用声明后仍需用户在「设置 - 应用 - 使用情况访问权限」中手动授予；
+      ProtectedPermissions lint 警告在此为预期行为，显式忽略。
+    -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- 前台服务基础权限（API 28+ 必需） -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Android 14(API 34)+：specialUse 类型前台服务的配套权限 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <!-- Android 13(API 33)+：通知运行时权限（常驻通知可见性） -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- 开机完成广播：重启后恢复冷静期拦截（EC-03） -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- 震动反馈（软提醒 1 次短震 / 强拦截 300ms） -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- 请求忽略电池优化：国内 ROM 保活合规基线之一 -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!--
+      红线加固：androidx.work（WorkManager）传递依赖会合并进 ACCESS_NETWORK_STATE。
+      本产品零联网，显式从合并清单中移除（本应用亦不声明 INTERNET）。
+    -->
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        tools:node="remove" />
+
+    <!--
+      × 不声明 android.permission.INTERNET
+      × 不声明 android.permission.QUERY_ALL_PACKAGES
+        应用选择器(P02)通过下方 <queries> 仅查询带桌面图标的可启动应用，
+        满足 Android 11(API 30)+ 包可见性限制且无需敏感的全包名查询权限。
+    -->
+
+    <!-- ============================ 2. 包可见性查询（API 30+） ============================ -->
+    <queries>
+        <!-- 仅对“有 Launcher 入口、带桌面图标”的应用可见，天然过滤无界面系统组件（F-05） -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+    <!-- Sprint 4：自定义 Material 3 启动主题 + 自适应应用图标（全 Vector，无二进制 PNG） -->
+    <application
+        android:name=".SessionClockApp"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="FocusClock"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SessionClock"
+        tools:targetApi="35">
+
+        <!-- ============================ 3. 主界面（单 Activity + Compose） ============================ -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ============================ 4. 常驻前台监控服务（PRD 4.2 / F-02） ============================
+             exported=false：仅本应用内部启停；
+             foregroundServiceType=specialUse：数字健康类监控无标准类型，
+             必须用 <property> 向系统与审核方说明具体用途（Android 14+ 强制）。
+        -->
+        <service
+            android:name=".service.MonitorForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="单次屏幕与应用使用防沉迷监控：检测前台应用、展示提醒悬浮窗并执行冷静期拦截，全部逻辑本地离线运行。" />
+        </service>
+
+        <!-- ============================ 5. 开机自启接收器（EC-03 / F-11） ============================
+             exported=true：需要接收系统广播；
+             仅监听 BOOT_COMPLETED（解锁完成后发送），不使用 LOCKED_BOOT_COMPLETED，
+             因 DataStore/内部存储在 Direct Boot 阶段不可读。
+        -->
+        <receiver
+            android:name=".receiver.BootCompletedReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
