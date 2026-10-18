@@ -3,6 +3,19 @@
 All notable changes to FocusClock are documented here.
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [SemVer](https://semver.org/).
 
+## [1.1.4] - 2026-10-18
+
+### Fixed
+
+- 收尾改名残留：后台保活指引里 12 条按厂商定制的步骤文案、以及通知渠道描述中仍是
+  `SessionClock`，现已统一为 `FocusClock`（均为用户可见文案）。
+  包名 `com.sessionclock`、DataStore 文件名、通知渠道 ID、窗口标题等**内部标识保持不变**，
+  以免影响已安装用户的既有数据与升级安装。
+
+### Changed
+
+- 版本号 `1.1.3` → `1.1.4`（versionCode `3` → `4`）。
+
 ## [1.1.3] - 2026-10-18
 
 First public release. Package id stays `com.sessionclock`; the display name changed from

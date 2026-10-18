@@ -28,7 +28,7 @@ class ServiceNotification(private val appContext: Context) {
             "专注力监控服务",
             NotificationManager.IMPORTANCE_LOW,
         ).apply {
-            description = "SessionClock 后台监控运行状态常驻提示"
+            description = "FocusClock 后台监控运行状态常驻提示"
             setShowBadge(false)
             enableVibration(false)
             enableLights(false)

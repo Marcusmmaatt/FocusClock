@@ -134,36 +134,36 @@ object VendorSettingsNavigator {
     fun manualSteps(vendor: Vendor): List<String> = when (vendor) {
         Vendor.XIAOMI -> listOf(
             "打开「手机管家」→「应用管理」→「权限」→「自启动管理」",
-            "找到 SessionClock 并允许后台运行 / 自启动",
-            "最近任务页长按 SessionClock 卡片，加锁防止被一键清理",
+            "找到 FocusClock 并允许后台运行 / 自启动",
+            "最近任务页长按 FocusClock 卡片，加锁防止被一键清理",
         )
         Vendor.HUAWEI -> listOf(
             "打开「设置」→「应用和服务」→「应用启动管理」",
-            "将 SessionClock 改为手动管理，并允许自启动 / 关联启动 / 后台活动",
-            "最近任务页给 SessionClock 卡片加锁",
+            "将 FocusClock 改为手动管理，并允许自启动 / 关联启动 / 后台活动",
+            "最近任务页给 FocusClock 卡片加锁",
         )
         Vendor.OPPO -> listOf(
             "打开「手机管家」→「权限与隐私」→「自启动管理」",
-            "允许 SessionClock 自启动",
-            "最近任务页锁定 SessionClock，并在电池设置中允许后台运行",
+            "允许 FocusClock 自启动",
+            "最近任务页锁定 FocusClock，并在电池设置中允许后台运行",
         )
         Vendor.VIVO -> listOf(
             "打开「i 管家」→「应用管理」→「权限管理」→「自启动」",
-            "允许 SessionClock 后台启动",
-            "最近任务页下滑 SessionClock 卡片加锁，并在电池中设为允许后台高耗电",
+            "允许 FocusClock 后台启动",
+            "最近任务页下滑 FocusClock 卡片加锁，并在电池中设为允许后台高耗电",
         )
         Vendor.MEIZU -> listOf(
             "打开「手机管家」→「权限管理」→「后台管理」",
-            "将 SessionClock 设为「允许后台运行」",
+            "将 FocusClock 设为「允许后台运行」",
         )
         Vendor.SAMSUNG -> listOf(
             "打开「设置」→「电池和设备维护」→「电池」→「后台使用限制」",
-            "将 SessionClock 加入「从不休眠的应用」",
+            "将 FocusClock 加入「从不休眠的应用」",
         )
         Vendor.OTHER -> listOf(
-            "在系统「设置」→「应用」→ SessionClock →「电池 / 耗电管理」中",
+            "在系统「设置」→「应用」→ FocusClock →「电池 / 耗电管理」中",
             "允许后台运行、后台活动，并关闭对本应用的电池优化",
-            "如有自启动管理入口，请一并允许 SessionClock 自启动",
+            "如有自启动管理入口，请一并允许 FocusClock 自启动",
         )
     }
 }

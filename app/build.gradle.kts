@@ -34,8 +34,8 @@ android {
         // PRD 1 节：适用平台 Android 9.0 / API 28 及以上
         minSdk = 28
         targetSdk = 35
-        versionCode = 3
-        versionName = "1.1.3"
+        versionCode = 4
+        versionName = "1.1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
