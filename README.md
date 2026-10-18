@@ -1,5 +1,8 @@
 # FocusClock
 
+[![build](https://github.com/Marcusmmaatt/FocusClock/actions/workflows/build.yml/badge.svg)](https://github.com/Marcusmmaatt/FocusClock/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 **A local-only focus guard for Android.** Pick one app, set a per-session time limit, and FocusClock
 reminds you — or blocks you — the moment you go over it. No account, no cloud, no network permission.
 
