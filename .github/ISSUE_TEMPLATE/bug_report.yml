@@ -1,0 +1,99 @@
+name: 🐛 Bug 报告
+description: 监控、拦截、遮罩或保活行为不符合预期
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。提交前请先**升级到最新版本**再复现一次。
+
+        > 安全相关问题请不要发在这里，见 [SECURITY.md](https://github.com/Marcusmmaatt/FocusClock/blob/main/SECURITY.md)。
+
+  - type: input
+    id: device
+    attributes:
+      label: 设备型号
+      placeholder: 例如 荣耀 Magic5 / 小米 14 / 一加 12
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: 系统版本
+      placeholder: 例如 Android 14 / MagicOS 8.0 / HyperOS 1.0
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: FocusClock 版本
+      description: 打开 App → 设置，或系统「应用信息」里查看
+      placeholder: 例如 1.1.4
+    validations:
+      required: true
+
+  - type: dropdown
+    id: mode
+    attributes:
+      label: 打断模式
+      options:
+        - 强制退出（默认）
+        - 仅提醒
+        - 两种都试过
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 选择目标应用为抖音，单次上限设为 5 分钟
+        2. 使用到 5 分钟
+        3. 遮罩弹出后按返回键
+        4. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: behaviour
+    attributes:
+      label: 期望 vs 实际
+      placeholder: |
+        期望：……
+        实际：……
+    validations:
+      required: true
+
+  - type: dropdown
+    id: battery
+    attributes:
+      label: 是否已加入电池白名单 / 允许自启动
+      options:
+        - 是
+        - 否
+        - 不确定
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志（强烈建议）
+      description: 连接电脑执行 `adb logcat -d -s MonitorEngine MonitorService > log.txt`，把内容粘贴到这里
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 确认
+      options:
+        - label: 我已升级到最新版本，并在该版本上复现
+          required: true
+        - label: 我已搜索过现有 issue，没有重复
+          required: true

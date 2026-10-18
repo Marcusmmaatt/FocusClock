@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 使用说明 / 保活指引
+    url: https://github.com/Marcusmmaatt/FocusClock#readme
+    about: 安装、授权、防杀后台的步骤都在 README 里
+  - name: ⬇️ 下载最新版本
+    url: https://github.com/Marcusmmaatt/FocusClock/releases/latest
+    about: 报告问题前，请先确认已经升级到最新版本

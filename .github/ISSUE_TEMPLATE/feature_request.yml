@@ -1,0 +1,42 @@
+name: ✨ 功能建议
+description: 提出新功能或改进建议
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请先描述**你想解决的问题**，再说**你希望的方案**。
+
+        > 如果建议涉及联网、云同步或数据采集，请先看 [CONTRIBUTING.md](https://github.com/Marcusmmaatt/FocusClock/blob/main/CONTRIBUTING.md) 的「三条红线」。
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你想解决什么问题
+      placeholder: 我在……的时候，遇到了……
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 你希望的方案
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 有没有考虑过别的做法
+      description: 例如用系统自带的屏幕时间、或者别的 App 已经能做到
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 确认
+      options:
+        - label: 这个建议不依赖联网、云服务或数据采集
+          required: true
